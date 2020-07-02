@@ -1,0 +1,9 @@
+server:
+  port: 23910
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/example?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC # allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: root
+    password: admin
+
