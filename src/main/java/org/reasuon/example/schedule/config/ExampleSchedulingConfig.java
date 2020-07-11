@@ -2,8 +2,12 @@ package org.reasuon.example.schedule.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 /**
  * 定时任务配置.
@@ -17,8 +21,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
  * @author Reasuon reasuon@gmail.com
  */
 @Configuration
+@EnableAsync
 @EnableScheduling
-public class ExampleSchedulingConfig {
+public class ExampleSchedulingConfig implements SchedulingConfigurer {
 
     /**
      * 注册线程池.
@@ -35,12 +40,29 @@ public class ExampleSchedulingConfig {
      * @see org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor#setScheduler(Object)
      * @return 线程池调度方案
      */
-    @Bean(name = "AttendanceTaskPool")
+    @Bean(name = "DynamicTaskPool")
     public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         // 手动创建线程池调度方案
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         // 设置线程池容量
-        taskScheduler.setPoolSize(3);
+        taskScheduler.setPoolSize(5);
         return taskScheduler;
+    }
+
+    /**
+     * 创建线程池.
+     * <p>shutdown 可能会报找不到，但是必能去除，否则无法启动</p>
+     * @return 线程池调度方案
+     */
+    @Bean(name = "TaskPool", destroyMethod="shutdown")
+    public TaskScheduler taskScheduler() {
+        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+        taskScheduler.setPoolSize(5);
+        return taskScheduler;
+    }
+
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        taskRegistrar.setScheduler(taskScheduler());
     }
 }

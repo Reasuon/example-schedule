@@ -25,7 +25,7 @@ import java.util.concurrent.ScheduledFuture;
 public class DynamicScheduleManage {
 
     @Autowired
-    @Qualifier("AttendanceTaskPool")
+    @Qualifier("DynamicTaskPool")
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
     /**
