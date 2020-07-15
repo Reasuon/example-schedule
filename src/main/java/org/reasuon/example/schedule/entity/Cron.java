@@ -2,8 +2,6 @@ package org.reasuon.example.schedule.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -12,8 +10,6 @@ import lombok.EqualsAndHashCode;
  *
  * @author Reasuon reasuon@gmail.com
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
 @TableName("t_cron")
 public class Cron implements Serializable {
 
@@ -23,5 +19,12 @@ public class Cron implements Serializable {
 
     private String cron;
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getCron() {
+        return this.cron;
+    }
 
 }

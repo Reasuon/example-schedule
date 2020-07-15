@@ -1,6 +1,5 @@
 package org.reasuon.example.schedule.utils;
 
-import lombok.extern.slf4j.Slf4j;
 import org.reasuon.example.schedule.task.ExampleTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +19,6 @@ import java.util.concurrent.ScheduledFuture;
  *
  * @author Reasuon reasuon@gmail.com
  */
-@Slf4j
 @Component
 public class DynamicScheduleManage {
 

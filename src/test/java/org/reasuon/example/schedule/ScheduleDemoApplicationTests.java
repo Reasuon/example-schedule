@@ -1,28 +1,27 @@
 package org.reasuon.example.schedule;
 
-import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.DateUtil;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.reasuon.example.schedule.entity.Cron;
 import org.reasuon.example.schedule.mapper.CronMapper;
 import org.reasuon.example.schedule.task.ExampleTask;
 import org.reasuon.example.schedule.utils.DynamicScheduleManage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Slf4j
 class ScheduleDemoApplicationTests {
+
+    private static final Logger log = LoggerFactory.getLogger(ScheduleDemoApplicationTests.class);
 
     @Autowired
     CronMapper cronMapper;
@@ -30,14 +29,11 @@ class ScheduleDemoApplicationTests {
     @Autowired
     private DynamicScheduleManage dynamicScheduleManage;
 
-    @Autowired
-    private ThreadPoolTaskScheduler taskScheduler;
-
     @Test
     void dynamicScheduleTest() {
         List<Cron> cronList = cronMapper.selectList(null);
         for (int i = 0; i < cronList.size(); i++) {
-            System.out.println(String.format("Name:%s,Cron:%s", cronList.get(i).getName(), cronList.get(i).getCron()));
+            log.info("Name:{},Cron:{}", cronList.get(i).getName(), cronList.get(i).getCron());
             ExampleTask task = new ExampleTask("任务" + (i + 1));
             dynamicScheduleManage.startSchedule(cronList.get(i).getName(), task, cronList.get(i).getCron());
         }

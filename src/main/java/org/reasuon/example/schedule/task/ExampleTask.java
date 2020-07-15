@@ -1,8 +1,8 @@
 package org.reasuon.example.schedule.task;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -10,9 +10,9 @@ import org.springframework.core.annotation.Order;
  *
  * @author Reasuon reasuon@gmail.com
  */
-@Data
-@Slf4j
 public class ExampleTask implements Runnable{
+
+    private static final Logger log = LoggerFactory.getLogger(ExampleTask.class);
 
     private String name;
 
@@ -32,9 +32,9 @@ public class ExampleTask implements Runnable{
         int num = 1;
         try {
             num = threadLocal.get();
-            int mullis = 3000;
-            log.info("休眠{}秒", mullis / 1000);
-            Thread.sleep(mullis);
+            int millisecond = 3000;
+            log.info("休眠{}秒", millisecond / 1000);
+            Thread.sleep(millisecond);
         } catch (NullPointerException | InterruptedException e) {
             threadLocal.set(num);
         }
